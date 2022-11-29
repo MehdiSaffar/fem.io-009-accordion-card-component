@@ -23,11 +23,11 @@
   --fw-bold: 700;
 }
 
-body, #app {
-  font-size: var(--fs-body);
-  font-family: var(--ff-body);
+body {
+  font-size: var(--fs);
+  font-family: var(--ff);
   font-weight: var(--fw-regular);
-  background-color: var(--clr-neutral-900);
+  background: linear-gradient(180deg, var(--clr-soft-violet), var(--clr-soft-blue));
 
   display: grid;
   place-content: center;
@@ -36,19 +36,19 @@ body, #app {
   padding: 1.5rem;
   line-height: 1.4;
 
-  color: var(--clr-neutral-300);
+  color: var(--clr-dark-grayish-blue);
 }
 
-.card {
-  display: grid;
-  gap: 1.2rem;
-  max-width: 500px;
-  background: linear-gradient(180deg, var(--clr-neutral-650) 0%, var(--clr-neutral-800) 100%);
-  padding: 1.5rem;
-  border-radius: 1rem;
-  overflow: hidden;
+// .card {
+//   display: grid;
+//   gap: 1.2rem;
+//   max-width: 500px;
+//   background: white;
+//   padding: 1.5rem;
+//   border-radius: 1rem;
+//   overflow: hidden;
 
-  &__title {
-    color: var(--clr-neutral-100);
-  }
-}
+//   &__title {
+//     color: var(--clr-neutral-100);
+//   }
+// }
