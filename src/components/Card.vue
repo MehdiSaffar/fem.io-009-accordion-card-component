@@ -1,49 +1,55 @@
 
 <script setup>
+import { ref } from 'vue';
+
+const openIx = ref(0)
+
+function onToggle(e, ix) {
+  if (e.target.open) {
+    openIx.value = ix
+  } else if (openIx.value === ix) {
+    openIx.value = -1
+  }
+}
+
+const data = [
+  {
+    question: "How many team members can I invite?",
+    answer: "You can invite up to 2 additional users on the Free plan. There is no limit on team members for the Premium plan."
+  },
+  {
+    question: "What is the maximum file upload size?",
+    answer: "No more than 2GB. All files in your account must fit your allotted storage space."
+  },
+  {
+    question: "How do I reset my password?",
+    answer: "Click “Forgot password” from the login page or “Change password” from your profile page. A reset link will be emailed to you."
+  },
+  {
+    question: "Can I cancel my subscription?",
+    answer: "Yes! Send us a message and we’ll process your request no questions asked."
+  },
+  {
+    question: "Do you provide additional support?",
+    answer: "Chat and email support is available 24/7. Phone lines are open during normal business hours."
+  }
+]
+
+
 </script>
 
 <template>
   <div class="card-wrapper">
+    <img src="../assets/images/illustration-woman-online-mobile.svg"
+      alt="Woman looking at screen">
+    <div class="card-wrapper__background" />
     <article class="card">
-      <img src="../assets/images/illustration-woman-online-mobile.svg" alt="Woman looking at screen">
       <h1>FAQ</h1>
       <ul>
-        <li>
-          <details>
-            <summary>How many team members can I invite?</summary>
-            <p>You can invite up to 2 additional users on the Free plan. There is
-              no
-              limit on team members for the Premium plan.</p>
-          </details>
-        </li>
-        <li>
-          <details>
-            <summary>What is the maximum file upload size?</summary>
-            <p>No more than 2GB. All files in your account must fit your allotted
-              storage space.</p>
-          </details>
-        </li>
-        <li>
-          <details>
-            <summary>How do I reset my password?</summary>
-            <p>Click “Forgot password” from the login page or “Change password”
-              from
-              your profile page. A reset link will be emailed to you.</p>
-          </details>
-        </li>
-        <li>
-          <details>
-            <summary>Can I cancel my subscription?</summary>
-            <p>Yes! Send us a message and we’ll process your request no questions
-              asked.</p>
-          </details>
-        </li>
-        <li>
-          <details>
-            <summary>Do you provide additional support?</summary>
-            <p>Chat and email support is available 24/7. Phone lines are open
-              during
-              normal business hours.</p>
+        <li v-for="(qa, ix) in data" :key="ix">
+          <details @toggle="onToggle($event, ix)" :open="openIx === ix ? true : null">
+            <summary>{{ qa.question}}</summary>
+            <p>{{ qa.answer }}</p>
           </details>
         </li>
       </ul>
@@ -53,72 +59,96 @@
 
 <style scoped lang="scss">
 .card-wrapper {
-  position: relative;
-}
-.card {
-  width: 75vw;
-  max-width: 500px;
-  background: white;
-  padding: 1.5rem;
-  border-radius: 1rem;
-  // overflow: hidden;
+  --card-padding: 1.5rem;
 
-  img {
-    position: absolute;
-    // top: 0;
-    // left: 50%;
-    // transform: translate(-50%, -60%);
+  display: grid;
+  grid-template-columns: 1fr 3.5fr 1fr;
+  grid-template-rows: repeat(4, auto);
+
+  &>img {
+    grid-row: 1 / span 2;
+    grid-column: 2;
+    // max-width: 100px;
+    // margin: auto;
+    transform: translate(0, -10%);
     z-index: 2;
-    filter: drop-shadow( 0px 24px 0px hsl(240, 73%, 65%, 0.2));
+    filter: drop-shadow(0px 24px 0px hsl(240, 73%, 65%, 0.2));
   }
 
-
-  h1 {
-    color: var(--clr-very-dark-desaturated-blue);
-    font-size: 2.5rem;
-    font-weight: var(--fw-bold);
-    margin: auto;
+  &__background {
+    grid-row: 2 / -1;
+    grid-column: 1 / -1;
+    z-index: 1;
+    background: white;
+    padding: var(--card-padding);
+    border-radius: 1rem;
   }
 
-  ul {
-    display: flex;
-    flex-direction: column;
-    padding: 0;
-  }
+  .card {
+    margin-block-start: 1rem;
 
-  li {
-    list-style: none;
-    padding-block: 1rem;
-    border-bottom: 1px solid var(--clr-light-grayish-blue);
-  }
+    max-width: 700px;
 
-  details {
-    p {
-      margin-block-start: 0.5rem;
+    grid-row: 3 / -1;
+    grid-column: 1 / -1;
+
+    display: grid;
+    gap: 1rem;
+
+    padding: var(--card-padding);
+    z-index: 2;
+
+    h1 {
+      color: var(--clr-very-dark-desaturated-blue);
+      font-size: 2.5rem;
+      font-weight: var(--fw-bold);
+      margin: auto;
     }
-  }
 
-  summary {
-    display: flex;
-    cursor: pointer;
+    ul {
+      display: flex;
+      flex-direction: column;
+      padding: 0;
+      margin-block-end: 1rem;
 
-  }
+      li {
+        list-style: none;
+        padding-block: 1rem;
+        border-bottom: 1px solid var(--clr-light-grayish-blue);
+      }
+    }
 
-  summary::after {
-    margin-inline-start: auto;
-    transition: transform 250ms ease;
-    content: url('../assets/images/icon-arrow-down.svg')
-      /* chevron */
-  }
 
-  details[open] summary {
-    color: var(--clr-very-dark-desaturated-blue);
-    font-weight: var(--fw-bold);
-    // transform: rotate(90deg);
-  }
+    details {
+      p {
+        font-size: 0.9rem;
+        margin-block-start: 0.5rem;
+      }
 
-  details[open] summary::after {
-    transform: rotate(180deg);
+      summary {
+        display: flex;
+        align-items: start;
+        gap: 1rem;
+        cursor: pointer;
+
+        &::after {
+          margin-inline-start: auto;
+          transition: transform 250ms ease;
+          content: url('../assets/images/icon-arrow-down.svg')
+        }
+      }
+
+
+      &[open] summary {
+        color: var(--clr-very-dark-desaturated-blue);
+        font-weight: var(--fw-bold);
+
+        &::after {
+          transform: rotate(180deg);
+        }
+      }
+    }
   }
 }
 </style>
+
